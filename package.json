@@ -1,0 +1,19 @@
+{
+  "name": "Chatbot_AI",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "apiai": "^4.0.3",
+    "express": "^4.16.3",
+    "node": "^9.9.0",
+    "nodemon": "^1.17.2",
+    "socket.io": "^2.0.4"
+  }
+}
