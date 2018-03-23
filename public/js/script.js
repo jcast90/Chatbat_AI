@@ -1,7 +1,6 @@
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 const recognition = new SpeechRecognition();
-
-
+const socket = io();
 
 recognition.lang = 'en-US';
 
@@ -9,9 +8,9 @@ document.querySelector('.talk').addEventListener('click', () => {
 	recognition.start();
 	console.log('start');
 })
-document.querySelector('.stop').addEventListener('click', () => {
-	recognition.stop();
-	console.log('stop');
+
+recognition.addEventListener('speechstart', () => {
+	console.log('Speech has been detected')
 })
 
 recognition.addEventListener('result', (e) => {
@@ -19,22 +18,27 @@ recognition.addEventListener('result', (e) => {
 	let last = e.results.length - 1;
 	let text = e.results[last][0].transcript;
 
-	const socket = io();
 	
 	socket.emit('chat messae', text);
 
 	console.log('Confidence: ' + e.results[0][0].confidence);
 	console.log(text)
 
-	function synthVoice(text) {
-		const synth = window.speechSynthesis;
-		const utterance = new SpeechSynthesisUtterance();
+})
 
-		utterance.text = text;
-		synth.speak(utterance);
-	}
+recognition.addEventListener('speechend', () => {
+	recognition.stop();
+})
 
-	socket.on('bot reply', function(replyText){
-		synthVoice(replyText);
-	})
+function synthVoice(text) {
+	const synth = window.speechSynthesis;
+	const utterance = new SpeechSynthesisUtterance();
+
+	utterance.text = text;
+	synth.speak(utterance);
+
+}
+
+socket.on('bot reply', function(replyText){
+	synthVoice(replyText);
 })

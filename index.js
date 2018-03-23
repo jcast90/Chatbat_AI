@@ -1,5 +1,7 @@
 const express = require('express');
 const app = express();
+const APIAI_TOKEN = process.env.APIAI_TOKEN;
+const APIAI_SESSION_ID = process.env.APIAI_SESSION_ID;
 
 app.use(express.static(__dirname + '/views'));
 app.use(express.static(__dirname + '/public'));
@@ -11,14 +13,13 @@ app.get('/', (req,res) => {
 })
 
 
-const apiai = require('apiai')(APIAI_KEY);
+const apiai = require('apiai')(APIAI_TOKEN);
 const io = require('socket.io')(server)
 
 
 io.sockets.on('connection', function(socket){
 
 	socket.on('chat message', (text) => {
-		console.log('chat message')
 		let apiaiReq = apiai.textRequest(text, {
 			sessionId: APIAI_SESSION_ID
 		});
@@ -35,3 +36,5 @@ io.sockets.on('connection', function(socket){
 		apiaiReq.end();
 	})
 })
+
+// 5f313400482d4c9ba654e4540ca44d85
