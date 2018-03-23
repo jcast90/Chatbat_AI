@@ -11,7 +11,7 @@ app.get('/', (req,res) => {
 })
 
 
-const apiai = require('apiai')('5f313400482d4c9ba654e4540ca44d85');
+const apiai = require('apiai')(APIAI_KEY);
 const io = require('socket.io')(server)
 
 
